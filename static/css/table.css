@@ -1,0 +1,20 @@
+td {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+} 
+
+th {
+    color:black;
+}
+  .form-control-dark {
+    color: black;
+    background-color: rgba(245, 109, 109, 0.1);
+    border-color: rgba(255, 255, 255, .1);
+  }
+  
+  .form-control-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+  }
+
+
