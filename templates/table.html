@@ -194,11 +194,13 @@ input[type=text], input[type=password] {
           </div>
           
           <div class="container">
+              <input type="button" class="btn btn-link" onclick="checkAll()" value="Check All">
+              <input type="button" class="btn btn-link" onclick="uncheckAll()" value="Uncheck All">
            {% for item in data %}
-           <div>
-            <input type="checkbox" name="{{item.url}}" value="{{item.id}}"><span>  {{item.url}}</span>
-            {% endfor %}
+            <div>
+            <input type="checkbox" class="check" name="{{item.url}}" value="{{item.id}}"><span>  {{item.url}}</span>
            </div>
+           {% endfor %}
            <button type="submit" value="submit">Initiate Scan</button>
           </div>
       
@@ -244,4 +246,22 @@ function myFunction() {
         }
     }
     </script>
+  <script>
+  function checkAll(){
+    var inputs = document.querySelectorAll('.check');
+    for(var i = 0; i < inputs.length; i++){
+      inputs[i].checked = true;
+    }
+  }
+
+  function uncheckAll(){
+    var inputs = document.querySelectorAll('.check');
+    for(var i = 0; i < inputs.length; i++){
+      inputs[i].checked = false;
+    }
+  }
+  widow.onload = function(){
+    window.addEventListener('load', checkAll, false);
+  }
+  </script>
 {% endblock %}

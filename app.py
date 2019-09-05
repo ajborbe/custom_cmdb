@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import requests
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./test.db'
 db = SQLAlchemy(app)
@@ -27,8 +28,9 @@ def assets():
     if request.method == 'POST':
         try:
             request_json = request.json or request.form.to_dict()
+            print(request_json['sched'])
             # convert sched to python datetime object
-            request_json['sched'] = datetime.strptime(request_json['sched'], DATE_FORMAT)
+            request_json['sched'] = datetime.strptime(request_json['sched'] + ':00', DATE_FORMAT)
             asset_record = Asset(**request_json)
             db.session.add(asset_record)
             db.session.commit()
