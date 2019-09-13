@@ -141,7 +141,17 @@ input[type=text], input[type=password] {
               {% for item in data %}
               <tr>
                 {% for key, value in item.items() %}
-                <td>{{ value }}</td>
+                  {% if key == 'sched': %}
+                    <td><a href="#">{{ value }}</a></td>
+                  {% elif key == 'password' or key == 'username' or key == 'url': %}
+                      {% if value == '': %}
+                       <td>{{value}}</td>
+                      {% else: %}
+                       <td>{{ value | replace(value, "************")}}</td>
+                      {% endif %}
+                  {% else %}
+                    <td>{{ value | safe }}</td>
+                  {% endif %}
                 {% endfor %}
               </tr>
               {% endfor %}

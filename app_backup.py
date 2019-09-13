@@ -28,7 +28,7 @@ def assets():
     if request.method == 'POST':
         try:
             request_json = request.json or request.form.to_dict()
-            print(request_json)
+            print(request_json['sched'])
             # convert sched to python datetime object
             request_json['sched'] = datetime.strptime(request_json['sched'] + ':00', DATE_FORMAT)
             asset_record = Asset(**request_json)
@@ -39,24 +39,15 @@ def assets():
             elif request.form:
                 return redirect(url_for('index'))
         except Exception as e:
-            print('Here: {}'.format(e))
-            return jsonify({"status": "error malformed json request", "message": 'sample request: {"password": "password", "sched": "2019-09-02 16:32", "status": "Passed", "url": "https://news.ycombinator.com", "username": "username" }'})
+            print(e)
+            return jsonify({"status": "error malformed json request", "message": 'sample request: {"password": "password", "sched": "2019-09-02 16:32:55", "status": "Passed", "url": "https://news.ycombinator.com", "username": "username" }'})
     
     else:
         return jsonify([serializer(asset) for asset in Asset.query.all()])
 
-@app.route('/rest/assets/<int:asset_id>/', methods=['GET', 'PUT'])
+@app.route('/rest/assets/<int:asset_id>/', methods=['GET'])
 def asset(asset_id):
-    if request.method == 'GET':
-        return serializer(Asset.query.filter_by(id=asset_id).first())
-    elif request.method == 'PUT':
-
-        request_json = request.json
-        request_json['last_scan'] = datetime.strptime(request_json['last_scan'] + ':00', DATE_FORMAT)
-
-        asset_record = Asset.query.filter_by(id=asset_id).update(request_json)
-        db.session.commit()
-        return serializer(Asset.query.filter_by(id=asset_id).first())
+    return serializer(Asset.query.filter_by(id=asset_id).first())
 
 @app.route('/rest/scan/', methods=['POST'])
 def scan():
